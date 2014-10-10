@@ -1,0 +1,44 @@
+stmflasher v0.6.2          07.03.2013
+
+ * Fixed validating of execution address in case when it is not
+   specified (tanks to Tim Yamin)
+
+stmflasher v0.6.1          27.02.2013
+
+ + Allow to specify relation execution address
+
+stmflasher v0.6.0          26.02.2013
+
+ + Allow to work with EEPROM on STM32L
+ + Chang way to use relative addressation (use '+' sign)
+ * Re-factoring of calculation working space
+ * Fixed soft reset, broken in 0.5.1
+
+stmflasher v0.5.1          24.02.2013
+
+ + Added STM32L Medium-density Plus (id 0x427) and STM32F050x (0x444)
+ + Added info about EEPROM for STM32L
+
+stmflasher v0.5            21.02.2013
+
+ First release since fork. Changes from stm32flash SVN r61.
+ * applied patches ("merging branch" on gitorious, thanks to Tormod Volden)
+ ** issue10 - fixed "More than two bytes sent"
+ ** issue16 - small fixes for win32
+ ** issue17 - additional serial speeds
+ ** issue22 - support for reading from stdin/writing to stdout
+ ** issue29 - support STM32F0 devices
+ ** issue31 - support for Readout Unprotect command
+ ** issue32 - corrected help information
+ ** issue34 - new Reset code, STM32F3 & STM32F0 support, small improvements
+ * fixes for merging branch
+ ** fixed memory write procedure when we write file to default location
+ ** fixed memory erase proc for chips with Extended Erase (with more than 255
+    flash pages)
+ * major redesign of command line interface
+ * added separate flag to work with RAM
+ * allow to plug/reset device after flasher is started (5 INIT retries)
+ * fixed "Failed to read byte: read_byte: Success"
+ * set the same timeout on Win32 and Posix (3 sec)
+ * fixed parity check on Posix
+ * many other internal fixes

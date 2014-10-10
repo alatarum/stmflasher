@@ -1,0 +1,38 @@
+ Installation Instructions
+ *************************
+
+ Install from sources
+ ====================
+
+ This project uses cmake build system to generate Makefiles and/or IDE project
+ files so you need to have cmake installed to build stmflasher. There are no
+ other dependencies except compiler distribution and cmake system. Currently
+ program is tested on the following platforms:
+ * Gentoo Linux amd64/13.0/developer + gcc 4.6.3
+ * FreeBSD 9.0 amd64 + gcc 4.2.1
+ * Windows 7 i386 + MinGW gcc 4.7.0
+
+ On *NIX or MS Windows with MinGW
+ ================================
+
+ To build the program, follow these steps:
+ 1. `cd' to the `build' subdirectory of stmflasher source tree.
+ 2. Type `cmake ..' to generate Makefiles for your system. If you want to
+    create an additional project file for some IDE, you can use -G option. See
+    cmake documentation for more info.
+ 3. Type `make' to compile the package.
+ 4. You can type `make install' to install the program to the system, but you
+    must keep in mind that cmake-generated Makefiles do not have `uninstall'
+    target! Besides, it is not recommended to install programs manually in
+    modern operating systems. You can try to use checkinstall on Debian-based
+    systems. On another distributions you should create package if you want to
+    install the program system-wide.
+
+ Install distribution
+ ====================
+
+ Currently only binary for MS Windows is available to download from project's
+ site. There is only one non-GUI executable file, so there is no installer -
+ you can simply copy it wherever you want.
+ If you use Gentoo Linux, you can download live ebuild from the site to install
+ latest SVN version of the program with portage.

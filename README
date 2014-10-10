@@ -1,0 +1,111 @@
+This is the README file for stmflasher. Installation
+instructions may be found in the INSTALL file.
+
+stmflasher is Copyright (C) 2010-2013 by:
+
+Geoffrey McRae <geoff@spacevs.com>,
+Steve Markgraf <steve@steve-m.de>,
+Tormod Volden,
+Alatar <alatar_@list.ru>,
+and others.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version. See the file COPYING for more details.
+
+About this software
+-------------------
+
+STM Flasher is a simple command-line tool for download/upload firmware to/from
+STM32 MCU and manipulate MCU flash protection with factory preprogrammed serial
+bootloader. This project is a fork of stm32flash by Geoffrey McRae, hosted on
+google code - http://code.google.com/p/stm32flash/.
+
+Main features:
+* device type identification
+* write to flash/ram
+* read from flash/ram
+* auto-detect Intel HEX or raw binary input format with option to force binary
+* save flash/ram block to binary file
+* verify & retry up to N times on failed writes
+* enable/disable flash read protection
+* disable flash write protection
+* start execution at specified address (-g)
+* software reset the device when finished if -g not specified
+* automatic resume already initialized connection (for when reset fails)
+* automatic retry to send INIT cmd, if no answer from bootloader
+* verbose and silent modes
+* work on POSIX systems (Linux, FreeBSD, MacOS X, etc) and Windows.
+
+Supported chips:
+* 0x412 - STM32 Low-density
+* 0x410 - STM32 Medium-density
+* 0x414 - STM32 High-density
+* 0x418 - STM32 Connectivity line
+* 0x420 - STM32 Low/Medium-density VL
+* 0x428 - STM32 High-density VL
+* 0x430 - STM32 XL-density
+* 0x416 - STM32L Medium-density
+* 0x427 - STM32L Medium-density PL (?)
+* 0x436 - STM32L High-density
+* 0x411 - STM32F2 (Limited support)
+* 0x413 - STM32F4 (Limited support)
+* 0x440 - STM32F051
+* 0x444 - STM32F050 (Low-density) (?)
+* 0x422 - STM32F30 & F31 (?)
+* 0x432 - STM32F37 & F38 (?)
+
+Note that on STM32F2/F4 only first 3 pages (48k of flash) can be used currectly.
+Use FullErase flag (-E) if you need to write to highest pages.
+(?) - These are not (yet) in AN2606, so reserved by bootloader memory not known.
+
+Usage
+-----
+
+stmflasher -p ser_port [-b rate] [-EvMKfc] [-S address[:length]] [-s start_page[:n_pages]]
+        [-n count] [-r|w filename] [-ujkeiR] [-g address] [-V level] [-h]
+
+        -p ser_port     Serial port name
+        -b ser_port     Serial port baud rate (default 57600)
+
+        -r filename     Read flash to file (stdout if "-")
+        -w filename     Write flash from file (stdin if "-")
+        -u              Disable the flash write-protection
+        -j              Enable the flash read-protection
+        -k              Disable the flash read-protection
+        -e              Erase only
+        -g address      Start execution at specified address (0 = flash start)
+        -i              Print information about target device and serial mode
+        -R              Reset controller (default for read/write/erase/etc)
+
+        -E              Full erase
+        -v              Verify writes
+        -n count        Retry failed writes up to count times (default 10)
+        -S address[:length]     Specify start address and optionally length for
+                                read/write/erase operations
+        -s start_page[:n_pages] Specify start address at page <start_page> (0 = flash start)
+                                and  optionally number of pages to erase
+        -M              Work with RAM, not Flash (read/write/erase operation)
+        -K              Don`t Reset controller after operation (keep in bootloader)
+        -f              Force binary parser
+        -c              Resume the connection (don't send initial INIT)
+                        *Baud rate must be kept the same as the first init*
+                        This is useful with -K or if the reset fails
+        -V level        Verbose output level (0 - silent, 1 - default, 2 - debug)
+
+        -h              Show this help
+
+Examples:
+        Get device information:
+                ./stmflasher -p /dev/ttyS0 -i
+        Write with verify and then start execution:
+                ./stmflasher -p /dev/ttyS0 -w filename -v -g 0x0
+        Show information and read flash to file:
+                ./stmflasher -p /dev/ttyS0 -i -r filename
+        Read 100 bytes of RAM with offset 0x1000 to stdout:
+                ./stmflasher -p /dev/ttyS0 -r - -M -S 0x1000:100
+        Read first page of flash to file in verbose mode:
+                ./stmflasher -p /dev/ttyS0 -r readed.bin -S :1 -V
+        Start execution:
+                ./stmflasher -p /dev/ttyS0 -g 0x0
